@@ -1,0 +1,3 @@
+To run proj1_linprog: './proj1_linprog < sieve.pasc'
+You can change sieve.pasc with another file name to perform lexical analysis
+of that program.

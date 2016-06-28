@@ -1,0 +1,404 @@
+   0  $accept : program $end
+
+   1  program : PROGRAMNUM IDNUM ISNUM declaration compoundstatement
+
+   2  declaration : VARNUM declaration2
+
+   3  declaration2 : IDNUM COMMANUM declaration2
+   4               | IDNUM
+
+   5  compoundstatement : BEGINNUM compoundstatement2
+
+   6  compoundstatement2 : statement SEMINUM compoundstatement2
+   7                     | statement ENDNUM
+
+   8  statement : IDNUM EQUALNUM exp
+   9            | PRINTNUM exp
+
+  10  exp : exp PLUSNUM term
+  11      | exp MINUSNUM term
+  12      | term
+  13      | MINUSNUM term
+
+  14  term : term TIMESNUM factor
+  15       | term DIVNUM factor
+  16       | factor
+
+  17  factor : INTEGERCONST
+  18         | IDNUM
+  19         | LPARENNUM exp RPARENNUM
+
+state 0
+	$accept : . program $end  (0)
+
+	PROGRAMNUM  shift 1
+	.  error
+
+	program  goto 2
+
+
+state 1
+	program : PROGRAMNUM . IDNUM ISNUM declaration compoundstatement  (1)
+
+	IDNUM  shift 3
+	.  error
+
+
+state 2
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	program : PROGRAMNUM IDNUM . ISNUM declaration compoundstatement  (1)
+
+	ISNUM  shift 4
+	.  error
+
+
+state 4
+	program : PROGRAMNUM IDNUM ISNUM . declaration compoundstatement  (1)
+
+	VARNUM  shift 5
+	.  error
+
+	declaration  goto 6
+
+
+state 5
+	declaration : VARNUM . declaration2  (2)
+
+	IDNUM  shift 7
+	.  error
+
+	declaration2  goto 8
+
+
+state 6
+	program : PROGRAMNUM IDNUM ISNUM declaration . compoundstatement  (1)
+
+	BEGINNUM  shift 9
+	.  error
+
+	compoundstatement  goto 10
+
+
+state 7
+	declaration2 : IDNUM . COMMANUM declaration2  (3)
+	declaration2 : IDNUM .  (4)
+
+	COMMANUM  shift 11
+	BEGINNUM  reduce 4
+
+
+state 8
+	declaration : VARNUM declaration2 .  (2)
+
+	.  reduce 2
+
+
+state 9
+	compoundstatement : BEGINNUM . compoundstatement2  (5)
+
+	IDNUM  shift 12
+	PRINTNUM  shift 13
+	.  error
+
+	compoundstatement2  goto 14
+	statement  goto 15
+
+
+state 10
+	program : PROGRAMNUM IDNUM ISNUM declaration compoundstatement .  (1)
+
+	.  reduce 1
+
+
+state 11
+	declaration2 : IDNUM COMMANUM . declaration2  (3)
+
+	IDNUM  shift 7
+	.  error
+
+	declaration2  goto 16
+
+
+state 12
+	statement : IDNUM . EQUALNUM exp  (8)
+
+	EQUALNUM  shift 17
+	.  error
+
+
+state 13
+	statement : PRINTNUM . exp  (9)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	MINUSNUM  shift 21
+	.  error
+
+	exp  goto 22
+	term  goto 23
+	factor  goto 24
+
+
+state 14
+	compoundstatement : BEGINNUM compoundstatement2 .  (5)
+
+	.  reduce 5
+
+
+state 15
+	compoundstatement2 : statement . SEMINUM compoundstatement2  (6)
+	compoundstatement2 : statement . ENDNUM  (7)
+
+	SEMINUM  shift 25
+	ENDNUM  shift 26
+	.  error
+
+
+state 16
+	declaration2 : IDNUM COMMANUM declaration2 .  (3)
+
+	.  reduce 3
+
+
+state 17
+	statement : IDNUM EQUALNUM . exp  (8)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	MINUSNUM  shift 21
+	.  error
+
+	exp  goto 27
+	term  goto 23
+	factor  goto 24
+
+
+state 18
+	factor : INTEGERCONST .  (17)
+
+	.  reduce 17
+
+
+state 19
+	factor : IDNUM .  (18)
+
+	.  reduce 18
+
+
+state 20
+	factor : LPARENNUM . exp RPARENNUM  (19)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	MINUSNUM  shift 21
+	.  error
+
+	exp  goto 28
+	term  goto 23
+	factor  goto 24
+
+
+state 21
+	exp : MINUSNUM . term  (13)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	.  error
+
+	term  goto 29
+	factor  goto 24
+
+
+state 22
+	statement : PRINTNUM exp .  (9)
+	exp : exp . PLUSNUM term  (10)
+	exp : exp . MINUSNUM term  (11)
+
+	PLUSNUM  shift 30
+	MINUSNUM  shift 31
+	SEMINUM  reduce 9
+	ENDNUM  reduce 9
+
+
+state 23
+	exp : term .  (12)
+	term : term . TIMESNUM factor  (14)
+	term : term . DIVNUM factor  (15)
+
+	TIMESNUM  shift 32
+	DIVNUM  shift 33
+	PLUSNUM  reduce 12
+	RPARENNUM  reduce 12
+	SEMINUM  reduce 12
+	ENDNUM  reduce 12
+	MINUSNUM  reduce 12
+
+
+state 24
+	term : factor .  (16)
+
+	.  reduce 16
+
+
+state 25
+	compoundstatement2 : statement SEMINUM . compoundstatement2  (6)
+
+	IDNUM  shift 12
+	PRINTNUM  shift 13
+	.  error
+
+	compoundstatement2  goto 34
+	statement  goto 15
+
+
+state 26
+	compoundstatement2 : statement ENDNUM .  (7)
+
+	.  reduce 7
+
+
+state 27
+	statement : IDNUM EQUALNUM exp .  (8)
+	exp : exp . PLUSNUM term  (10)
+	exp : exp . MINUSNUM term  (11)
+
+	PLUSNUM  shift 30
+	MINUSNUM  shift 31
+	SEMINUM  reduce 8
+	ENDNUM  reduce 8
+
+
+state 28
+	exp : exp . PLUSNUM term  (10)
+	exp : exp . MINUSNUM term  (11)
+	factor : LPARENNUM exp . RPARENNUM  (19)
+
+	PLUSNUM  shift 30
+	RPARENNUM  shift 35
+	MINUSNUM  shift 31
+	.  error
+
+
+state 29
+	exp : MINUSNUM term .  (13)
+	term : term . TIMESNUM factor  (14)
+	term : term . DIVNUM factor  (15)
+
+	TIMESNUM  shift 32
+	DIVNUM  shift 33
+	PLUSNUM  reduce 13
+	RPARENNUM  reduce 13
+	SEMINUM  reduce 13
+	ENDNUM  reduce 13
+	MINUSNUM  reduce 13
+
+
+state 30
+	exp : exp PLUSNUM . term  (10)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	.  error
+
+	term  goto 36
+	factor  goto 24
+
+
+state 31
+	exp : exp MINUSNUM . term  (11)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	.  error
+
+	term  goto 37
+	factor  goto 24
+
+
+state 32
+	term : term TIMESNUM . factor  (14)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	.  error
+
+	factor  goto 38
+
+
+state 33
+	term : term DIVNUM . factor  (15)
+
+	INTEGERCONST  shift 18
+	IDNUM  shift 19
+	LPARENNUM  shift 20
+	.  error
+
+	factor  goto 39
+
+
+state 34
+	compoundstatement2 : statement SEMINUM compoundstatement2 .  (6)
+
+	.  reduce 6
+
+
+state 35
+	factor : LPARENNUM exp RPARENNUM .  (19)
+
+	.  reduce 19
+
+
+state 36
+	exp : exp PLUSNUM term .  (10)
+	term : term . TIMESNUM factor  (14)
+	term : term . DIVNUM factor  (15)
+
+	TIMESNUM  shift 32
+	DIVNUM  shift 33
+	PLUSNUM  reduce 10
+	RPARENNUM  reduce 10
+	SEMINUM  reduce 10
+	ENDNUM  reduce 10
+	MINUSNUM  reduce 10
+
+
+state 37
+	exp : exp MINUSNUM term .  (11)
+	term : term . TIMESNUM factor  (14)
+	term : term . DIVNUM factor  (15)
+
+	TIMESNUM  shift 32
+	DIVNUM  shift 33
+	PLUSNUM  reduce 11
+	RPARENNUM  reduce 11
+	SEMINUM  reduce 11
+	ENDNUM  reduce 11
+	MINUSNUM  reduce 11
+
+
+state 38
+	term : term TIMESNUM factor .  (14)
+
+	.  reduce 14
+
+
+state 39
+	term : term DIVNUM factor .  (15)
+
+	.  reduce 15
+
+
+25 terminals, 10 nonterminals
+20 grammar rules, 40 states

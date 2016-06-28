@@ -1,0 +1,33 @@
+(define fstat
+          (lambda (srcf charcount wordcount linecount)
+            (if (eof-object? (peek-char srcf ) )
+                  (begin
+                     (close-port srcf)
+                     (display charcount)
+		     (display #\space)
+		     (display wordcount)
+		     (display #\space)
+		     (display linecount)
+                     (newline) ()
+                  )
+                (begin
+			(if (char=? (peek-char srcf) #\space)
+				(set! wordcount (+ wordcount 1)))
+			(if (char=? (peek-char srcf) #\newline)
+				(set! linecount (+ linecount 1)))
+			(if (char=? (peek-char srcf) #\newline)
+				(set! wordcount (+ wordcount 1)))
+                  	(read-char srcf)
+                  	(fstat srcf (+ charcount 1) wordcount linecount)
+                )
+            )
+         )
+)
+
+(define filestatistics
+  (lambda (src)
+    (let ((file (open-input-file src)))
+       (fstat file 0 0 0)
+    )
+  )
+)

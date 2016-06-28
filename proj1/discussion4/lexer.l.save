@@ -1,0 +1,174 @@
+%{
+#define ENDOFFILE (0)
+#define CCOMMENT (1)
+#define STUFF (2)
+#define COLON (3)
+#define COMMA (4)
+#define DOT (5)
+#define LPAREN (6) 
+#define RPAREN (7)
+#define LT (8)
+#define GT (9)
+#define EQ (10) 
+#define MINUS (11)
+#define PLUS (12)
+#define TIMES (13)
+#define DOTDOT (14) 
+#define COLEQ (15)
+#define LE (16)
+#define GE (17)
+#define NE (18) 
+#define ID (19)
+#define ICONST (20)
+#define CCONST (21)
+#define SCONST (22) 
+#define AND (23)
+#define ARRAY (24)
+#define BEGINnumber (25)
+#define CONST (26) 
+#define DIV (27)
+#define DOWNTO (28)
+#define ELSE (29)
+#define ELSIF (30) 
+#define END (31)
+#define ENDIF (32)
+#define ENDLOOP (33)
+#define ENDREC (34) 
+#define EXIT (35)
+#define FOR (36)
+#define FORWARD (37)
+#define FUNCTION (38) 
+#define IF (39)
+#define IS (40)
+#define LOOP (41)
+#define NOT (42) 
+#define OF (43)
+#define OR (44)
+#define PROCEDURE (45)
+#define PROGRAM (46) 
+#define RECORD (47)
+#define REPEAT (48)
+#define RETURN (49)
+#define THEN (50) 
+#define TO (51)
+#define TYPE (52)
+#define UNTIL (53)
+#define VAR (54) 
+#define WHILE (55)
+#define PRINT (56)
+%}
+
+openc		"(*"
+closec		"*)"
+safe		[^*(]+
+safestar1	"*"[^(]
+safeslash1	[^*]"("
+
+safeslash2	"("[^*]
+safestar2	[^(]"*"
+[^(]"*"
+digit		[0-9]
+letter		[a-zA-Z]
+A		[aA]
+B		[bB]
+C		[cC]
+D		[dD]
+E		[eE]
+F		[fF]
+G		[gG]
+H		[hH]
+I		[iI]
+J		[jJ]
+K		[kK]
+L		[lL]
+M		[mM]
+N		[nN]
+O		[oO]
+P		[pP]
+Q		[qQ]
+R		[rR]
+S		[sS]
+T		[tT]
+U		[uU]
+V		[vV]
+W		[wW]
+X		[xX]
+Y		[yY]
+Z		[zZ]
+space		" "
+%%
+
+{openc}({safe}|{safestar1}|{safeslash1}|{safestar2}|{safeslash2})+{closec}	return ;
+<<EOF>>										return ENDOFFILE;
+":"										return COLON;
+"," 											return COMMA;
+"." 											return DOT;
+"(" 											return LPAREN;
+")" 											return RPAREN;
+"<" 											return LT;
+">" 											return GT;
+"=" 											return EQ;
+"-" 											return MINUS;
+"+" 											return PLUS;
+"*" 											return TIMES;
+".." 											return DOTDOT;
+":=" 											return COLEQ;
+"<=" 											return LE;
+">=" 											return GE;
+"<>" 											return NE;
+{I}{D}{E}{N}{T}{I}{F}{I}{E}{R} 								return ID;
+{I}{N}{T}{E}{G}{E}{R}{space}{C}{O}{N}{S}{T}{A}{N}{T}					return ICONST;
+{C}{H}{A}{R}{space}{C}{O}{N}{S}{T}{A}{N}{T} 						return CCONST;
+{S}{T}{R}{I}{N}{G}{space}{C}{O}{N}{S}{T}{A}{N}{T} 					return SCONST;
+{A}{N}{D} 										return AND;
+{A}{R}{R}{A}{Y} 									return ARRAY;
+{B}{E}{G}{I}{N} 									return BEGINnumber;
+{C}{O}{N}{S}{T}{A}{N}{T} 								return CONST;
+{D}{I}{V} 										return DIV;
+{D}{O}{W}{N}{T}{O} 									return DOWNTO;
+{E}{L}{S}{E} 										return ELSE;
+{E}{L}{S}{I}{F} 									return ELSIF;
+{E}{N}{D} 										return END;
+{E}{N}{D}{I}{F} 									return ENDIF;
+{E}{N}{D}{L}{O}{O}{P} 									return ENDLOOP;
+{E}{N}{D}{R}{E}{C} 									return ENDREC;
+{E}{X}{I}{T} 										return EXIT;
+{F}{O}{R} 										return FOR;
+{F}{O}{R}{W}{A}{R}{D} 									return FORWARD;
+{F}{U}{N}{C}{T}{I}{O}{N} 								return FUNCTION;
+{I}{F} 											return IF;
+{I}{S} 											return IS;
+{L}{O}{O}{P} 										return LOOP;
+{N}{O}{T} 										return NOT;
+{O}{F} 											return OF;
+{O}{R} 											return OR;
+{P}{R}{O}{C}{E}{D}{U}{R}{E} 								return PROCEDURE;
+{P}{R}{O}{G}{R}{A}{M} 									return PROGRAM;
+{R}{E}{C}{O}{R}{D} 									return RECORD;
+{R}{E}{P}{E}{A}{T} 									return REPEAT;
+{R}{E}{T}{U}{R}{N} 									return RETURN;
+{T}{H}{E}{N} 										return THEN;
+{T}{O} 											return TO;
+{T}{Y}{P}{E} 										return TYPE;
+{U}{N}{T}{I}{L} 									return UNTIL;
+{V}{A}{R} 										return VAR;
+{W}{H}{I}{L}{E} 									return WHILE;
+{P}{R}{I}{N}{T} 									return PRINT;
+<<EOF>>											return ENDOFFILE;
+%%
+%%
+
+int main ()
+{
+  int retval;
+
+  yyin = stdin;
+
+  while ((retval = yylex ()) != ENDOFFILE)
+    if (retval == CCOMMENT)
+      {
+	fprintf(stdout, "%s\n", yytext);
+	fprintf(stdout, "\t------------\t\n");
+      }
+  fprintf(stdout, "\n");
+}

@@ -1,0 +1,43 @@
+First International Workshop on Workflow Models, Systems, Services and Applications in the Cloud
+CloudFlow 2012
+
+CloudFlow00 - Introduction
+ 
+Session 1: Workflow
+Session Chair:(TBA) 
+
+CloudFlow01 - A Framework for Nonrepudiatable and Scalable Cross-Enterprise Workflow Management Systems in the Cloud  
+Gwan-Hwan Hwang,Yu-Cheng Hsiao,Yi-Chan Kao,Heng-Yi Lin 
+ 
+CloudFlow02 - Extending the Assurance Point (AP) Approach to Process Recovery for Use With Flow Groups
+LE GAO,Susan Urban,Zev Friedman,Jonathan Rodriguez
+ 
+CloudFlow03 - GreenPipe: a Hadoop Based Workflow System on Energy-efficient Clouds
+Yaokuan Mao,Wenjun Wu,Hui Zhang,Liang Luo 
+ 
+CloudFlow04 - Adaptive Data Refinement for Parallel Dynamic Programming Applications
+Shanjiang Tang,Ce Yu,Bu-Sung Lee,Jizhou Sun
+ 
+Session 2: Cloud Computing 
+Session Chair:(TBA) 
+
+CloudFlow05 - Reliable Migration Module in Trusted Cloud based on Security Level: Design and Implementation 
+Ying Chen,Pengfei Sun,Yangwei Li
+ 
+CloudFlow06 - Cloud Services Gateway: A tool for exposing Private Services to the Public Cloud with fine-grained Control
+Nuwan Kumarasiri,Srinath Perera,Senaka Fernando,Sanjiva Weerawarana ,Paul Fremantle
+ 
+CloudFlow07 - Improving the QoS of Web Applications across Multiple Virtual Machines in Cloud Computing Environment 
+Weizhe Zhang
+ 
+Session 3: Application
+Session Chair:(TBA) 
+ 
+CloudFlow08 - A Markov Chain-based Availability Model of Virtual Cluster Nodes
+Jianhua Che
+ 
+CloudFlow09 - Massively Parallel Model of Evolutionary Game Dynamics
+Amanda Randles,David Rand,Christopher Lee,Greg Morrisett,Jayanta Sircar,Martin Nowak,Hanspeter Pfister
+ 
+CloudFlow10 - MapReduce Skyline Query Processing with A New Angular Partitioning Approach
+Liang Chen,Kai Hwang,Jian Wu
